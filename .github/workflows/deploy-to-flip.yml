@@ -7,7 +7,7 @@ jobs:
     deploy-to-flip:
         runs-on: ubuntu-latest
         needs: build-and-test
-        environment:
+        environment: 
             name: flip
         steps:
             - run: touch private_key
