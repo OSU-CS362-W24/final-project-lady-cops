@@ -10,8 +10,11 @@ jobs:
         environment: 
             name: flip
         steps:
-            - run: touch private_key
-            - run: chmod 700 private_key
-            - run: echo "${{secrets.SSH_PRIVATE_KEY}}" > private_key
-            - run: ssh "${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}" -i private_key
-            - run: rm -f private_key
+            - name: Deploy to flip
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                host: ${{ secrets.SSH_HOST }}
+                username: ${{ secrets.SSH_USER }}
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                command_timeout: 30m
+                script: ~/deploy_cs362_final.sh
