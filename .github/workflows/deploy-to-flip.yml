@@ -1,0 +1,19 @@
+name: Deploy to CoE flip Server
+on:
+    push:
+jobs:
+    build-and-test:
+        uses: ./.github/workflows/build-and-test.yml
+        with:
+            upload-pages-artifact: true
+    deploy-to-flip:
+        runs-on: ubuntu-latest
+        needs: build-and-test
+        environment:
+            name: flip
+        steps:
+            - run: touch private_key
+            - run: chmod 700 private_key
+            - run: echo "${{secrets.SSH_PRIVATE_KEY}}" > private_key
+            - run: ssh "${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}" -i private_key
+            - run: rm -f private_key
