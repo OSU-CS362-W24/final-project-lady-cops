@@ -27,3 +27,16 @@ test('sortPoints function is able to sort a given array specifically by x-values
     expect(sortedAr[3]).toEqual({ x: 4, y: 19})
     expect(sortedAr[4]).toEqual({ x: 5, y: 17})
 });
+
+test('sortPoints function outputs the same array if the array is already sorted', () => {
+    // Arrange- creating an sorted array to test
+    const unsortedAr = [{ x: 5, y: 5},{ x: 10, y: 10},{ x: 15, y: 15}]
+
+    // Act- using sortPoints function to sort previous array
+    const sortedAr = sortPoints(unsortedAr)
+
+    // Assert- ensuring new array is still sorted
+    expect(sortedAr[0]).toEqual({ x: 5, y: 5})
+    expect(sortedAr[1]).toEqual({ x: 10, y: 10})
+    expect(sortedAr[2]).toEqual({ x: 15, y: 15})
+});
