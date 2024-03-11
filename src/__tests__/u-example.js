@@ -59,7 +59,7 @@ test('using saveChart to save data to localStorage', () => {
     expect(loadAllSavedCharts).toContain('test data')
 });
 
-test('using loadAllSavedCharts to retrieve data to localStorage', () => {
+test('using loadAllSavedCharts to retrieve data from localStorage', () => {
     // Arrange- Creating test data to be saved to localStorage
     const testChart = ('test data')
     
