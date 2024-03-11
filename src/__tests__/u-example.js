@@ -71,3 +71,24 @@ test('using loadAllSavedCharts to retrieve data from localStorage', () => {
     expect(loadAllSavedCharts).toContain('test data')
 });
 
+test('using loadSavedChart to retrieve data from a specific index in localStorage', () => {
+    // Arrange- Creating test data to be saved to localStorage
+    const testChart1 = ('banana')
+    const testChart2 = ('apple')
+    const testChart3 = ('orange')
+    
+    // Act- Saving test data using saveChart and fetching chart data using loadAllSavedCharts
+    chartStorage.saveChart(testChart1)
+    chartStorage.saveChart(testChart2)
+    chartStorage.saveChart(testChart3)
+
+    // Starting at index 2, since 0 and 1 have been filled by previous tests
+    const loadSavedChart1 = chartStorage.loadSavedChart(2)
+    const loadSavedChart2 = chartStorage.loadSavedChart(3)
+    const loadSavedChart3 = chartStorage.loadSavedChart(4)
+
+    // Assert- expecting the call to loadAllSavedCharts to return data that contains test data
+    expect(loadSavedChart1).toBe('banana')
+    expect(loadSavedChart2).toBe('apple')
+    expect(loadSavedChart3).toBe('orange')
+});
