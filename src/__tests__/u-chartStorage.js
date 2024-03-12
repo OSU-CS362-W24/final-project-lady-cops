@@ -53,7 +53,7 @@ test('using loadSavedChart to retrieve data from a specific index in localStorag
 
 test("using updateCurrentChartData to write to the current chart's data from localStorage", () => {
     // Arrange- Creating test data to be saved to localStorage
-    const testChart1 = ("banana")
+    const testChart1 = ('banana')
     
     // Act- Saving test data using updateCurrentChartData and fetching chart data from localStorage
     chartStorage.updateCurrentChartData(testChart1)
@@ -65,7 +65,7 @@ test("using updateCurrentChartData to write to the current chart's data from loc
 
 test("using loadCurrentChartData to read the current chart's data from localStorage", () => {
     // Arrange- Creating test data to be saved to localStorage
-    const testChart1 = ("apple")
+    const testChart1 = ('apple')
     
     // Act- Saving test data using updateCurrentChartData and fetching chart data using loadCurrentChartData
     chartStorage.updateCurrentChartData(testChart1)
