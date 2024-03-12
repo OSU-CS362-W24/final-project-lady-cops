@@ -32,25 +32,27 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
     const buttons = domTesting.queryAllByRole(document, "button")
     const addButton = buttons[3];
     
+    //make sure the correct button is selected
+    expect(addButton).toHaveTextContent("+")
+
     //count all cells
-    
+    var xLabels = await domTesting.getAllByLabelText(document, "X")
+    var yLabels = await domTesting.getAllByLabelText(document, "Y")
 
 
     // Assert that the lists are not empty
-	// expect(xLabels).toHaveLength(1)
-    // expect(yLabels ).toHaveLength(1)
-
-
+	expect(xLabels).toHaveLength(1)
+    expect(yLabels ).toHaveLength(1)
 
     const user = userEvent.setup()
 
     await user.click(addButton)
 
-    const xLabels = await domTesting.getAllByLabelText(document, "X label")
-    const yLabels = await domTesting.getAllByLabelText(document, "Y label")
+    xLabels = await domTesting.getAllByLabelText(document, "X")
+    yLabels = await domTesting.getAllByLabelText(document, "Y")
 
     expect(xLabels).toHaveLength(2)
-    expect(yLabels ).toHaveLength(2)
+    expect(yLabels).toHaveLength(2)
 })
 
 
