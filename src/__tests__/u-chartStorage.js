@@ -50,3 +50,15 @@ test('using loadSavedChart to retrieve data from a specific index in localStorag
     expect(loadSavedChart2).toBe('apple')
     expect(loadSavedChart3).toBe('orange')
 });
+
+test("using updateCurrentChartData to write to the current chart's data from localStorage", () => {
+    // Arrange- Creating test data to be saved to localStorage
+    const testChart1 = ("banana")
+    
+    // Act- Saving test data using updateCurrentChartData and fetching chart data from localStorage
+    chartStorage.updateCurrentChartData(testChart1)
+    const currentChartData = window.localStorage.getItem('currentChartData')
+
+    // Assert- expecting localStorage to the test data from currentChartData
+    expect(currentChartData).toContain('banana')
+});
