@@ -56,8 +56,29 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
 })
 
 
-//ALERTS DISPLAYED FOR MISSING CHART DATA 
+//ALERTS DISPLAYED FOR MISSING CHART DATA
+test('Error message appears for missing chart title', async function(){
+})
+test('Error message appears for missing X Label', async function(){
+})
+test('Error message appears for missing Y Label', async function(){
+})
+test('Error message appears for missing X value', async function(){
+})
+test('Error message appears for missing Y value', async function(){
+})
+
 
 //CLEARING CHART DATA
+test('All chart values are cleared when Clear Chart Data is pressed', async function(){
+})
+test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', async function(){
+})
+test('The chart display is empty after Clear Chart Data is pressed', async function(){
+})
 
 //DATA CORRECTLY SENT TO CHART GENERATION FUNCTION
+test('Chart title and axis are named', async function(){
+})
+test('Spy on image url to see if all values are correcly sent over', async function(){
+})
