@@ -48,8 +48,8 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
 
     await user.click(addButton)
 
-    xLabels = await domTesting.getAllByLabelText(document, "X")
-    yLabels = await domTesting.getAllByLabelText(document, "Y")
+    xLabels = domTesting.getAllByLabelText(document, "X")
+    yLabels = domTesting.getAllByLabelText(document, "Y")
 
     expect(xLabels).toHaveLength(2)
     expect(yLabels).toHaveLength(2)
