@@ -1,0 +1,21 @@
+name: Deploy to CoE flip Server
+on:
+    push:
+        branches: [ main ]
+jobs:
+    build-and-test:
+        uses: ./.github/workflows/build-and-test.yml
+    deploy-to-flip:
+        runs-on: ubuntu-latest
+        needs: build-and-test
+        environment: 
+            name: flip
+        steps:
+            - name: Deploy to flip
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                host: ${{ secrets.SSH_HOST }}
+                username: ${{ secrets.SSH_USER }}
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                command_timeout: 30m
+                script: ~/deploy_cs362_final.sh
