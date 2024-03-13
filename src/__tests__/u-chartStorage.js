@@ -15,6 +15,7 @@ test('using saveChart to save data to localStorage', () => {
 
     // Assert- expecting the localStorage chart data to contain test data
     expect(loadAllSavedCharts).toContain('test data')
+    window.localStorage.clear()
 });
 
 test('using loadAllSavedCharts to retrieve data from localStorage', () => {
@@ -27,6 +28,7 @@ test('using loadAllSavedCharts to retrieve data from localStorage', () => {
 
     // Assert- expecting the call to loadAllSavedCharts to return data that contains test data
     expect(loadAllSavedCharts).toContain('test data')
+    window.localStorage.clear()
 });
 
 test('using loadSavedChart to retrieve data from a specific index in localStorage', () => {
@@ -40,15 +42,15 @@ test('using loadSavedChart to retrieve data from a specific index in localStorag
     chartStorage.saveChart(testChart2)
     chartStorage.saveChart(testChart3)
 
-    // Starting at index 2, since 0 and 1 have been filled by previous tests
-    const loadSavedChart1 = chartStorage.loadSavedChart(2)
-    const loadSavedChart2 = chartStorage.loadSavedChart(3)
-    const loadSavedChart3 = chartStorage.loadSavedChart(4)
+    const loadSavedChart1 = chartStorage.loadSavedChart(0)
+    const loadSavedChart2 = chartStorage.loadSavedChart(1)
+    const loadSavedChart3 = chartStorage.loadSavedChart(2)
 
     // Assert- expecting the call to loadAllSavedCharts to return data that contains test data
     expect(loadSavedChart1).toBe('banana')
     expect(loadSavedChart2).toBe('apple')
     expect(loadSavedChart3).toBe('orange')
+    window.localStorage.clear()
 });
 
 test("using updateCurrentChartData to write to the current chart's data from localStorage", () => {
@@ -61,6 +63,7 @@ test("using updateCurrentChartData to write to the current chart's data from loc
 
     // Assert- expecting localStorage to the test data from currentChartData
     expect(currentChartData).toContain('banana')
+    window.localStorage.clear()
 });
 
 test("using loadCurrentChartData to read the current chart's data from localStorage", () => {
@@ -73,4 +76,5 @@ test("using loadCurrentChartData to read the current chart's data from localStor
 
     // Assert- expecting localStorage to the test data from currentChartData
     expect(currentChartData).toContain('apple')
+    window.localStorage.clear()
 });
