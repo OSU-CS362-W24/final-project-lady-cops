@@ -6,6 +6,9 @@
  const domTesting = require('@testing-library/dom')
  require('@testing-library/jest-dom')
  const userEvent = require("@testing-library/user-event").default
+
+ //Spy on
+ const Window = require("./window")
  
  function initDomFromFiles(htmlPath, jsPath) {
      const html = fs.readFileSync(htmlPath, 'utf8')
@@ -49,7 +52,7 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
     await user.click(addButton)
 
     xValues = domTesting.getAllByLabelText(document, "X")
-    yLabels = domTesting.getAllByLabelText(document, "Y")
+    yValues = domTesting.getAllByLabelText(document, "Y")
 
     expect(xValues).toHaveLength(2)
     expect(yValues).toHaveLength(2)
@@ -63,20 +66,20 @@ test('Error message appears for missing chart title', async function(){
     const xLabel = domTesting.getByLabelText(document, "X label")
     const yLabel = domTesting.getByLabelText(document, "Y label")
     
-    const xValue = domTesting.getByLabelText(document, "X")
-    const yValue = domTesting.getByLabelText(document, "Y")
-
-    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+    const xValues = domTesting.getAllByLabelText(document, "X")
+    const yValues = domTesting.getAllByLabelText(document, "Y")
+    const xValue = xValues[0]
+    const yValue = yValues[0]
 
     const buttons = domTesting.queryAllByRole(document, "button")
-    var generateButton = buttons[2]
+    var generateButton = buttons[0]
 
     //make sure the correct button is selected
     expect(generateButton).toHaveTextContent("Generate chart")
 
     //Popups
-    const alertMock = jest.spyOn(window,'alert').mockImplementation(); 
-    const { getByText, getByTestId } = render(<Form />)
+    window.alert = jest.fn();
+    const alertMock = jest.spyOn(Window, 'alert');
 
     const user = userEvent.setup()
 
@@ -84,21 +87,111 @@ test('Error message appears for missing chart title', async function(){
     await user.type(yLabel, "Y Label Name :(")
     await user.type(xValue, "22")
     await user.type(yValue, "33")
-    await user.type(chartTitle, "") //missing chart title
 
     await user.click(generateButton)
     
     expect(alertMock).toHaveBeenCalledTimes(1)
-
-
 })
-test('Error message appears for missing X Label', async function(){
-})
+
 test('Error message appears for missing Y Label', async function(){
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    
+    const xValues = domTesting.getAllByLabelText(document, "X")
+    const yValues = domTesting.getAllByLabelText(document, "Y")
+    const xValue = xValues[0]
+    const yValue = yValues[0]
+
+    const buttons = domTesting.queryAllByRole(document, "button")
+    var generateButton = buttons[0]
+
+    //make sure the correct button is selected
+    expect(generateButton).toHaveTextContent("Generate chart")
+
+    //Popups
+    window.alert = jest.fn();
+    const alertMock = jest.spyOn(Window, 'alert');
+
+    const user = userEvent.setup()
+
+    await user.type(chartTitle, "Random Chart Title")
+    await user.type(xLabel, "X Label Name :)")
+    await user.type(xValue, "22")
+    await user.type(yValue, "33")
+
+    await user.click(generateButton)
+    
+    expect(alertMock).toHaveBeenCalledTimes(1)
 })
+
 test('Error message appears for missing X value', async function(){
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    const yValues = domTesting.getAllByLabelText(document, "Y")
+    const yValue = yValues[0]
+
+    const buttons = domTesting.queryAllByRole(document, "button")
+    var generateButton = buttons[0]
+
+    //make sure the correct button is selected
+    expect(generateButton).toHaveTextContent("Generate chart")
+
+    //Popups
+    window.alert = jest.fn();
+    const alertMock = jest.spyOn(Window, 'alert');
+
+    const user = userEvent.setup()
+
+    await user.type(chartTitle, "Random Chart Title")
+    await user.type(xLabel, "X Label Name :)")
+    await user.type(yLabel, "Y Label Name")
+    await user.type(yValue, "33")
+
+    await user.click(generateButton)
+    
+    expect(alertMock).toHaveBeenCalledTimes(1)
 })
+
 test('Error message appears for missing Y value', async function(){
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    
+    const xValues = domTesting.getAllByLabelText(document, "X")
+    const xValue = xValues[0]
+
+    const buttons = domTesting.queryAllByRole(document, "button")
+    var generateButton = buttons[0]
+
+    //make sure the correct button is selected
+    expect(generateButton).toHaveTextContent("Generate chart")
+
+    //Popups
+    window.alert = jest.fn();
+    const alertMock = jest.spyOn(Window, 'alert');
+
+    const user = userEvent.setup()
+
+    await user.type(chartTitle, "Random Chart Title")
+    await user.type(xLabel, "X Label Name :)")
+    await user.type(yLabel, "Y Label Name :)")
+    await user.type(xValue, "22")
+
+    await user.click(generateButton)
+    
+    expect(alertMock).toHaveBeenCalledTimes(1)
 })
 
 
