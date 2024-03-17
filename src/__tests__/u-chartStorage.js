@@ -7,13 +7,13 @@ const chartStorage = require('../lib/chartStorage')
 require('@testing-library/jest-dom')
 
 function initDomFromFiles(htmlPath, jsPath) {
-	const html = fs.readFileSync(htmlPath, 'utf8')
-	document.open()
-	document.write(html)
-	document.close()
-	jest.isolateModules(function() {
-		require(jsPath)
-	})
+    const html = fs.readFileSync(htmlPath, 'utf8')
+    document.open()
+    document.write(html)
+    document.close()
+    jest.isolateModules(function() {
+        require(jsPath)
+    })
 }
 
 test('using saveChart to save data to localStorage', () => {

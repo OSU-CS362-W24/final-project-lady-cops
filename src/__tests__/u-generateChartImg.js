@@ -7,13 +7,13 @@ const generateChartImg = require('../lib/generateChartImg')
 require("whatwg-fetch")
 
 function initDomFromFiles(htmlPath, jsPath) {
-	const html = fs.readFileSync(htmlPath, 'utf8')
-	document.open()
-	document.write(html)
-	document.close()
-	jest.isolateModules(function() {
-		require(jsPath)
-	})
+    const html = fs.readFileSync(htmlPath, 'utf8')
+    document.open()
+    document.write(html)
+    document.close()
+    jest.isolateModules(function() {
+        require(jsPath)
+    })
 }
 
 test('generateChartImg generates an image URL using blob', async () => {
