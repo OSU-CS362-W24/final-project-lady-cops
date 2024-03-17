@@ -61,14 +61,25 @@ test('using loadSavedChart to retrieve data from a specific index in localStorag
 
 test("using updateCurrentChartData to write to the current chart's data from localStorage", () => {
     // Arrange- Creating test data to be saved to localStorage
-    const testChart1 = ('banana')
+    const testChart = ('banana')
     
     // Act- Saving test data using updateCurrentChartData and fetching chart data from localStorage
-    chartStorage.updateCurrentChartData(testChart1)
-    const currentChartData = window.localStorage.getItem('currentChartData')
+    chartStorage.updateCurrentChartData(testChart)
+    const currentChartData1 = window.localStorage.getItem('currentChartData')
 
     // Assert- expecting localStorage to the test data from currentChartData
-    expect(currentChartData).toContain('banana')
+    expect(currentChartData1).toContain('banana')
+
+    // Arrange- Creating test data to be saved to localStorage
+    const testReplace = ('apple')
+    
+    // Act- Saving test data using updateCurrentChartData and fetching chart data from localStorage
+    chartStorage.updateCurrentChartData(testReplace)
+    const currentChartData2 = window.localStorage.getItem('currentChartData')
+
+    // Assert- expecting localStorage to the test data from currentChartData and not to contain previous data
+    expect(currentChartData2).not.toContain('banana')
+    expect(currentChartData2).toContain('apple')
     window.localStorage.clear()
 });
 
