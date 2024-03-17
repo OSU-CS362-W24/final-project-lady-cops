@@ -336,6 +336,65 @@ test('generateChartImg receives the required parameters when the user creates a 
     
     generateChartImg.mockRestore()
 })
-test('Spy on image url to see if all values are correcly sent over', async function(){
+test('generateChartImg receives the optional parameters when the user creates a chart with optional data', async function(){
+    const generateChartImg = require(`${__dirname}/../lib/generateChartImg.js`)
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
+    const chartTitle = domTesting.getByLabelText(document, 'Chart title')
+    const xLabel = domTesting.getByLabelText(document, 'X label')
+    const yLabel = domTesting.getByLabelText(document, 'Y label')
+    const chartColor = domTesting.getByLabelText(document, 'Chart color')
+    const addDataBtn = domTesting.getByText(document, '+')
+    const submitBtn = domTesting.getByText(document, 'Generate chart')
+
+    const user = userEvent.setup()
+    
+    /* Create a mock for generateChartImg */
+    jest.mock(`${__dirname}/../lib/generateChartImg.js`, () => {
+        return jest.fn(() => 'https://placehold.co/600x400')
+    })
+
+
+    /* Add a few rows for data */
+    await user.click(addDataBtn)
+    await user.click(addDataBtn)
+    await user.click(addDataBtn)
+    var xValues = domTesting.getAllByLabelText(document, "X")
+    var yValues = domTesting.getAllByLabelText(document, "Y")
+
+    /* Start entering data for the chart */
+    await user.type(chartTitle, 'My Title')
+    await user.type(xLabel, 'My X Label')
+    await user.type(yLabel, 'My Y Label')
+    /* Not ideal, but best available method for setting the chart color: https://github.com/testing-library/user-event/issues/423#issuecomment-669368863 */
+    domTesting.fireEvent.input(chartColor, {target: {value: '#98ff98'}})
+
+    await user.type(xValues[0], '1')
+    await user.type(yValues[0], '2')
+    await user.type(xValues[1], '3')
+    await user.type(yValues[1], '4')
+    await user.type(xValues[2], '5')
+    await user.type(yValues[2], '6')
+
+    /* Generate the chart with that data */
+    await user.click(submitBtn)
+
+
+    /* Ensure the function received the correct data */
+    expect(generateChartImg).toHaveBeenCalledTimes(1)
+
+    const passedData = generateChartImg.mock.calls[0]
+    expect(passedData[0]).toBe('line')
+    expect(passedData[1]).toEqual([
+        {x: '1', y: '2'},
+        {x: '3', y: '4'},
+        {x: '5', y: '6'},
+    ])
+    expect(passedData[2]).toBe('My X Label')
+    expect(passedData[3]).toBe('My Y Label')
+    expect(passedData[4]).toBe('My Title')
+    expect(passedData[5]).toBe('#98ff98')
+
+    
+    generateChartImg.mockRestore()
 })
