@@ -2,24 +2,24 @@
  * @jest-environment jsdom
  */
 
- const fs = require("fs")
- const domTesting = require('@testing-library/dom')
- require('@testing-library/jest-dom')
- const userEvent = require("@testing-library/user-event").default
+const fs = require("fs")
+const domTesting = require('@testing-library/dom')
+require('@testing-library/jest-dom')
+const userEvent = require("@testing-library/user-event").default
 
- //Spy on
- const Window = require("./window")
+//Spy on
+const Window = require("./window")
  
- function initDomFromFiles(htmlPath, jsPath) {
+function initDomFromFiles(htmlPath, jsPath) {
     window.localStorage.clear()
-     const html = fs.readFileSync(htmlPath, 'utf8')
-     document.open()
-     document.write(html)
-     document.close()
-     jest.isolateModules(function() {
-         require(jsPath)
-     })
- }
+    const html = fs.readFileSync(htmlPath, 'utf8')
+    document.open()
+    document.write(html)
+    document.close()
+    jest.isolateModules(function() {
+        require(jsPath)
+    })
+}
 
 /*
     They should verify the behaviors described above. Note that these behaviors are 
