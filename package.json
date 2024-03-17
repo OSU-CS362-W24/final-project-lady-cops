@@ -30,11 +30,13 @@
     "webpack-dev-server": "^4.15.0"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/src/__mocks__/styleMock.js"
     }
   },
   "dependencies": {
-    "xmlchars": "^2.2.0"
+    "xmlchars": "^2.2.0",
+    "whatwg-fetch": "^3.6.20"
   }
 }
