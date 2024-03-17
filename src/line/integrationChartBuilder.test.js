@@ -11,6 +11,7 @@
  const Window = require("./window")
  
  function initDomFromFiles(htmlPath, jsPath) {
+    window.localStorage.clear()
      const html = fs.readFileSync(htmlPath, 'utf8')
      document.open()
      document.write(html)
@@ -168,7 +169,6 @@ test('Error message appears for missing Y value', async function(){
     const xLabel = domTesting.getByLabelText(document, "X label")
     const yLabel = domTesting.getByLabelText(document, "Y label")
     
-    
     const xValues = domTesting.getAllByLabelText(document, "X")
     const xValue = xValues[0]
 
@@ -197,7 +197,48 @@ test('Error message appears for missing Y value', async function(){
 
 //CLEARING CHART DATA
 test('All chart values are cleared when Clear Chart Data is pressed', async function(){
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    const xValues = domTesting.getAllByLabelText(document, "X")
+    const yValues = domTesting.getAllByLabelText(document, "Y")
+    const xValue = xValues[0]
+    const yValue = yValues[0]
+
+    const buttons = domTesting.queryAllByRole(document, "button")
+    var clearButton = buttons[1]
+
+    //make sure the correct button is selected
+    expect(clearButton).toHaveTextContent("Clear chart data")
+
+    const user = userEvent.setup()
+
+    await user.type(chartTitle, "Random Chart Title")
+    await user.type(xLabel, "X Label Name :)")
+    await user.type(yLabel, "Y Label Name :)")
+    await user.type(xValue, "22")
+    await user.type(yValue, "33")
+
+    expect(xLabel).toHaveValue("X Label Name :)")
+    expect(yLabel).toHaveValue("Y Label Name :)")
+    expect(xValue).toHaveTextContent("22")
+    expect(yValue).toHaveTextContent("33")
+    expect(chartTitle).toHaveValue("Random Chart Title")
+
+    await user.click(clearButton)
+
+    expect(xLabel).toHaveValue("")
+    expect(yLabel).toHaveValue("")
+    expect(xValue).not.toHaveTextContent("22")
+    expect(yValue).not.toHaveTextContent("33")
+    expect(chartTitle).toHaveValue("")
+
 })
+
 test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', async function(){
 })
 test('The chart display is empty after Clear Chart Data is pressed', async function(){
