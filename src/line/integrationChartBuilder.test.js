@@ -200,17 +200,11 @@ test('All chart values are cleared when Clear Chart Data is pressed', async func
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     const chartTitle = domTesting.getByLabelText(document, "Chart title")
-
     const xLabel = domTesting.getByLabelText(document, "X label")
     const yLabel = domTesting.getByLabelText(document, "Y label")
-    
-    const xValues = domTesting.getAllByLabelText(document, "X")
-    const yValues = domTesting.getAllByLabelText(document, "Y")
-    const xValue = xValues[0]
-    const yValue = yValues[0]
 
     const buttons = domTesting.queryAllByRole(document, "button")
-    var clearButton = buttons[1]
+    const clearButton = buttons[1]
 
     //make sure the correct button is selected
     expect(clearButton).toHaveTextContent("Clear chart data")
@@ -220,32 +214,76 @@ test('All chart values are cleared when Clear Chart Data is pressed', async func
     await user.type(chartTitle, "Random Chart Title")
     await user.type(xLabel, "X Label Name :)")
     await user.type(yLabel, "Y Label Name :)")
-    await user.type(xValue, "22")
-    await user.type(yValue, "33")
+
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
 
     expect(xLabel).toHaveValue("X Label Name :)")
     expect(yLabel).toHaveValue("Y Label Name :)")
-    expect(xValue).toHaveTextContent("22")
-    expect(yValue).toHaveTextContent("33")
     expect(chartTitle).toHaveValue("Random Chart Title")
 
     await user.click(clearButton)
 
     expect(xLabel).toHaveValue("")
     expect(yLabel).toHaveValue("")
-    expect(xValue).not.toHaveTextContent("22")
-    expect(yValue).not.toHaveTextContent("33")
     expect(chartTitle).toHaveValue("")
-
 })
 
 test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', async function(){
-})
-test('The chart display is empty after Clear Chart Data is pressed', async function(){
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+
+    const xLabel = domTesting.getByLabelText(document, "X label")
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    var xValues = domTesting.getAllByLabelText(document, "X")
+    var yValues = domTesting.getAllByLabelText(document, "Y")
+    const xValue = xValues[0]
+    const yValue = yValues[0]
+
+    const buttons = domTesting.queryAllByRole(document, "button")
+    const clearButton = buttons[1]
+    const addButton = buttons[3];
+    
+    //make sure the correct button is selected
+    expect(addButton).toHaveTextContent("+")
+    expect(clearButton).toHaveTextContent("Clear chart data")
+    expect(xValues).toHaveLength(1)
+    expect(yValues).toHaveLength(1)
+
+    const user = userEvent.setup()
+
+    await user.type(chartTitle, "Random Chart Title")
+    await user.type(xLabel, "X Label Name :)")
+    await user.type(yLabel, "Y Label Name :)")
+    await user.type(xValue, "22")
+    await user.type(yValue, "33")
+    await user.click(addButton)
+    await user.click(addButton)
+
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
+
+    expect(xValues).toHaveLength(3)
+    expect(yValues).toHaveLength(3)
+
+    await user.click(clearButton)
+
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
+
+    expect(xLabel).toHaveValue("")
+    expect(yLabel).toHaveValue("")
+    expect(chartTitle).toHaveValue("")
+    expect(xValues).toHaveLength(1)
+    expect(yValues).toHaveLength(1)
 })
 
 //DATA CORRECTLY SENT TO CHART GENERATION FUNCTION
 test('Chart title and axis are named', async function(){
+    
 })
 test('Spy on image url to see if all values are correcly sent over', async function(){
+
 })
