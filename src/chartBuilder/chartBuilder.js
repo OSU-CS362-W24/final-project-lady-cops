@@ -216,7 +216,9 @@ module.exports = function runChartBuilder(type) {
      */
     function insertXYInputPair() {
         const xInput = generateXYInput("x")
+        xInput.querySelector('input').setAttribute('data-testid', 'x-input');
         const yInput = generateXYInput("y")
+        yInput.querySelector('input').setAttribute('data-testid', 'y-input');
         xyDataGrid && xyDataGrid.append(xInput, yInput)
     }
 
