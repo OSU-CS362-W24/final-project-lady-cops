@@ -8,7 +8,7 @@ require('@testing-library/jest-dom')
 const userEvent = require("@testing-library/user-event").default
 
 //Spy on
-const Window = require("./window")
+const window = require("./window")
  
 function initDomFromFiles(htmlPath, jsPath) {
     window.localStorage.clear()
@@ -80,7 +80,7 @@ test('Error message appears for missing chart title', async function(){
 
     //Popups
     window.alert = jest.fn();
-    const alertMock = jest.spyOn(Window, 'alert');
+    const alertMock = jest.spyOn(window, 'alert');
 
     const user = userEvent.setup()
 
@@ -114,7 +114,7 @@ test('Error message appears for missing Y Label', async function(){
 
     //Popups
     window.alert = jest.fn();
-    const alertMock = jest.spyOn(Window, 'alert');
+    const alertMock = jest.spyOn(window, 'alert');
 
     const user = userEvent.setup()
 
@@ -147,7 +147,7 @@ test('Error message appears for missing X value', async function(){
 
     //Popups
     window.alert = jest.fn();
-    const alertMock = jest.spyOn(Window, 'alert');
+    const alertMock = jest.spyOn(window, 'alert');
 
     const user = userEvent.setup()
 
@@ -180,7 +180,7 @@ test('Error message appears for missing Y value', async function(){
 
     //Popups
     window.alert = jest.fn();
-    const alertMock = jest.spyOn(Window, 'alert');
+    const alertMock = jest.spyOn(window, 'alert');
 
     const user = userEvent.setup()
 
