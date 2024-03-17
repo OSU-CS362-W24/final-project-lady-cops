@@ -26,7 +26,7 @@ test('using saveChart to save data to localStorage', () => {
     const loadAllSavedCharts = window.localStorage.getItem("savedCharts")
 
     // Assert- expecting the localStorage chart data to contain test data
-    expect(loadAllSavedCharts).toContain('test data')
+    expect(loadAllSavedCharts).toBe('["test data"]')
     window.localStorage.clear()
 });
 
@@ -76,14 +76,14 @@ test('using loadSavedChart to retrieve data from a specific index in localStorag
 test("using updateCurrentChartData to write to the current chart's data from localStorage", () => {
     // Arrange- Creating test data to be saved to localStorage
     initDomFromFiles(`${__dirname}/../index.html`, `${__dirname}/../lib/chartStorage.js`)
-    const testChart = ('banana')
+    const testChart = ("banana")
     
     // Act- Saving test data using updateCurrentChartData and fetching chart data from localStorage
     chartStorage.updateCurrentChartData(testChart)
     const currentChartData1 = window.localStorage.getItem('currentChartData')
 
     // Assert- expecting localStorage to the test data from currentChartData
-    expect(currentChartData1).toContain('banana')
+    expect(currentChartData1).toBe('"banana"')
 
     // Arrange- Creating test data to be saved to localStorage
     const testReplace = ('apple')
@@ -93,8 +93,8 @@ test("using updateCurrentChartData to write to the current chart's data from loc
     const currentChartData2 = window.localStorage.getItem('currentChartData')
 
     // Assert- expecting localStorage to the test data from currentChartData and not to contain previous data
-    expect(currentChartData2).not.toContain('banana')
-    expect(currentChartData2).toContain('apple')
+    expect(currentChartData2).not.toContain('"banana"')
+    expect(currentChartData2).toBe('"apple"')
     window.localStorage.clear()
 });
 
@@ -108,6 +108,6 @@ test("using loadCurrentChartData to read the current chart's data from localStor
     const currentChartData = chartStorage.loadCurrentChartData()
 
     // Assert- expecting localStorage to the test data from currentChartData
-    expect(currentChartData).toContain('apple')
+    expect(currentChartData).toBe('apple')
     window.localStorage.clear()
 });
