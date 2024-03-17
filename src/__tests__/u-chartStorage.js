@@ -2,11 +2,23 @@
  * @jest-environment jsdom
  */
 
+const fs = require("fs")
 const chartStorage = require('../lib/chartStorage')
 require('@testing-library/jest-dom')
 
+function initDomFromFiles(htmlPath, jsPath) {
+	const html = fs.readFileSync(htmlPath, 'utf8')
+	document.open()
+	document.write(html)
+	document.close()
+	jest.isolateModules(function() {
+		require(jsPath)
+	})
+}
+
 test('using saveChart to save data to localStorage', () => {
     // Arrange- Creating test data to be saved to localStorage
+    initDomFromFiles(`${__dirname}/../index.html`, `${__dirname}/../lib/chartStorage.js`)
     const testChart = ('test data')
     
     // Act- Saving test data using saveChart and fetching chart data
@@ -20,6 +32,7 @@ test('using saveChart to save data to localStorage', () => {
 
 test('using loadAllSavedCharts to retrieve data from localStorage', () => {
     // Arrange- Creating test data to be saved to localStorage
+    initDomFromFiles(`${__dirname}/../index.html`, `${__dirname}/../lib/chartStorage.js`)
     const testChart1 = ('banana')
     const testChart2 = ('apple')
     const testChart3 = ('orange')
@@ -39,6 +52,7 @@ test('using loadAllSavedCharts to retrieve data from localStorage', () => {
 
 test('using loadSavedChart to retrieve data from a specific index in localStorage', () => {
     // Arrange- Creating test data to be saved to localStorage
+    initDomFromFiles(`${__dirname}/../index.html`, `${__dirname}/../lib/chartStorage.js`)
     const testChart1 = ('banana')
     const testChart2 = ('apple')
     const testChart3 = ('orange')
@@ -61,6 +75,7 @@ test('using loadSavedChart to retrieve data from a specific index in localStorag
 
 test("using updateCurrentChartData to write to the current chart's data from localStorage", () => {
     // Arrange- Creating test data to be saved to localStorage
+    initDomFromFiles(`${__dirname}/../index.html`, `${__dirname}/../lib/chartStorage.js`)
     const testChart = ('banana')
     
     // Act- Saving test data using updateCurrentChartData and fetching chart data from localStorage
@@ -85,6 +100,7 @@ test("using updateCurrentChartData to write to the current chart's data from loc
 
 test("using loadCurrentChartData to read the current chart's data from localStorage", () => {
     // Arrange- Creating test data to be saved to localStorage
+    initDomFromFiles(`${__dirname}/../index.html`, `${__dirname}/../lib/chartStorage.js`)
     const testChart1 = ('apple')
     
     // Act- Saving test data using updateCurrentChartData and fetching chart data using loadCurrentChartData
