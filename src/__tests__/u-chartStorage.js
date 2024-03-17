@@ -20,14 +20,20 @@ test('using saveChart to save data to localStorage', () => {
 
 test('using loadAllSavedCharts to retrieve data from localStorage', () => {
     // Arrange- Creating test data to be saved to localStorage
-    const testChart = ('test data')
+    const testChart1 = ('banana')
+    const testChart2 = ('apple')
+    const testChart3 = ('orange')
     
     // Act- Saving test data using saveChart and fetching chart data using loadAllSavedCharts
-    chartStorage.saveChart(testChart)
+    chartStorage.saveChart(testChart1)
+    chartStorage.saveChart(testChart2)
+    chartStorage.saveChart(testChart3)
     const loadAllSavedCharts = chartStorage.loadAllSavedCharts()
 
     // Assert- expecting the call to loadAllSavedCharts to return data that contains test data
-    expect(loadAllSavedCharts).toContain('test data')
+    expect(loadAllSavedCharts).toContain('banana')
+    expect(loadAllSavedCharts).toContain('apple')
+    expect(loadAllSavedCharts).toContain('orange')
     window.localStorage.clear()
 });
 
