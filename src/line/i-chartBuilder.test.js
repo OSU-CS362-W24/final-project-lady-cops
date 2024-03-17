@@ -292,12 +292,10 @@ test('generateChartImg receives the required parameters when the user creates a 
 
     const user = userEvent.setup()
     
-    /* Create a spy for generateChartImg */
-    const generateSpy = jest.spyOn({ generateChartImg }, 'generateChartImg')
-    /* Stub it to avoid actually connecting to the API */
-    generateSpy.mockImplementation(() => {
-        return 'https://placehold.co/600x400';
-    });
+    /* Create a mock for generateChartImg */
+    jest.mock(`${__dirname}/../lib/generateChartImg.js`, () => {
+        return jest.fn(() => 'https://placehold.co/600x400')
+    })
 
 
     /* Add a few rows for data */
@@ -323,22 +321,20 @@ test('generateChartImg receives the required parameters when the user creates a 
 
 
     /* Ensure the function received the correct data */
-    expect(generateSpy).toHaveBeenCalledTimes(1)
+    expect(generateChartImg).toHaveBeenCalledTimes(1)
 
-    const passedData = generateSpy.mock.calls[0]
-    expect(passedData).toMatchObject({
-        type: 'line',
-        data: [
-            {x: 1, y: 2},
-            {x: 3, y: 4},
-            {x: 5, y: 6},
-        ],
-        xLabel: 'My X Label',
-        yLabel: 'My Y Label'
-    })
+    const passedData = generateChartImg.mock.calls[0]
+    expect(passedData[0]).toEqual('line')
+    expect(passedData[1]).toEqual([
+        {x: '1', y: '2'},
+        {x: '3', y: '4'},
+        {x: '5', y: '6'},
+    ])
+    expect(passedData[2]).toEqual('My X Label')
+    expect(passedData[3]).toEqual('My Y Label')
 
     
-    generateSpy.mockRestore()
+    generateChartImg.mockRestore()
 })
 test('Spy on image url to see if all values are correcly sent over', async function(){
 
