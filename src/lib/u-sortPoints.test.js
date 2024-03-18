@@ -1,4 +1,4 @@
-const sortPoints = require('../lib/sortPoints')
+const sortPoints = require('./sortPoints')
 
 test('sortPoints function is able to sort a given array', () => {
     // Arrange- creating an unsorted array to test
