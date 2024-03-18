@@ -216,9 +216,7 @@ module.exports = function runChartBuilder(type) {
      */
     function insertXYInputPair() {
         const xInput = generateXYInput("x")
-        xInput.querySelector('input').setAttribute('data-testid', 'x-input');
         const yInput = generateXYInput("y")
-        yInput.querySelector('input').setAttribute('data-testid', 'y-input');
         xyDataGrid && xyDataGrid.append(xInput, yInput)
     }
 
@@ -283,6 +281,7 @@ module.exports = function runChartBuilder(type) {
         if (!img) {
             img = document.createElement("img")
             img.setAttribute("id", "chart-img")
+            img.setAttribute("data-testid", "chart-image"); // Add test ID attribute
             chartDisplay && chartDisplay.append(img)
         }
         img.src = imgUrl

@@ -1,28 +1,36 @@
 describe('Saving a Chart to the Gallery', () => {
   it('Saves the chart to the gallery correctly', () => {
-    //Visit the line page
+    // Visit the line page
     cy.visit('/line.html');
 
-    //Enter chart title
-    cy.get('#chart-title-input').type('title');
-    //Enter x label and y label
-    cy.get('#x-label-input').type('x');
-    cy.get('#y-label-input').type('y');
+    // Enter chart title
+    cy.findByLabelText('Chart title').type('title');
 
-    //Enter x and y values
-    cy.get('[data-testid="x-input"]').type('7');
-    cy.get('[data-testid="y-input"]').type('5');
+    // Enter x label and y label
+    cy.findByLabelText('X label').type('x');
+    cy.findByLabelText('Y label').type('y');
 
-    //Click the generate chart button
-    cy.get('#generate-chart-btn').click();
+    //Enter first set of x and y values
+    cy.findAllByLabelText('X').eq(0).type('7');
+    cy.findAllByLabelText('Y').eq(0).type('5');
 
-    //Click the save chart button
-    cy.get('#save-chart-btn').click();
+    //Add another set of x and y inputs
+    cy.findByText('+').click();
+    cy.findAllByLabelText('X').eq(1).type('10')
 
-    //Navigate to the gallery
-    cy.get('nav').contains('Gallery').click();
+    // Change the color of the chart
+    cy.findByLabelText('Chart color').invoke('val', '#ff448').trigger('change');
 
-    //Check that the title of the chart exists in the library
+    // Click the generate chart button
+    cy.findByText('Generate chart').click();
+
+    // Click the save chart button
+    cy.findByText('Save chart').click();
+
+    // Navigate to the gallery
+    cy.findByText('Gallery').click();
+
+    // Check that the title of the chart exists in the library
     cy.contains('title').should('exist');
   });
 });

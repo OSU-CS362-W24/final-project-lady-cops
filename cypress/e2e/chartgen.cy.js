@@ -1,22 +1,31 @@
 describe('Chart Generation Test', () => {
   it('Generates chart correctly', () => {
-    //Visit the line page
+    // Visit the line page
     cy.visit('/line.html');
 
-    //Enter chart title
-    cy.get('#chart-title-input').type('title')
-    //Enter x label and y label
-    cy.get('#x-label-input').type('x');
-    cy.get('#y-label-input').type('y');
+    // Enter chart title
+    cy.findByLabelText('Chart title').type('title');
 
-    //Enter x and y values
-    cy.get('[data-testid="x-input"]').type('7');
-    cy.get('[data-testid="y-input"]').type('5');
+    // Enter x label and y label
+    cy.findByLabelText('X label').type('x');
+    cy.findByLabelText('Y label').type('y');
 
-    //Click the generate chart button
-    cy.get('#generate-chart-btn').click();
+    // Enter first set of x and y values
+    cy.findAllByLabelText('X').eq(0).type('7');
+    cy.findAllByLabelText('Y').eq(0).type('5');
+
+    // Add another set of x and y inputs
+    cy.findByText('+').click();
+    cy.findAllByLabelText('X').eq(1).type('10');
+    cy.findAllByLabelText('Y').eq(1).type('8');
+
+    // Change the color of the chart
+    cy.findByLabelText('Chart color').invoke('val', '#ff448').trigger('change');
+
+    // Click the generate chart button
+    cy.findByText('Generate chart').click();
 
     //Check that the chart is visible
-    cy.get('#chart-display img').should('be.visible');
+    cy.findByTestId('chart-image').should('exist').should('be.visible');
   });
 });
