@@ -20,7 +20,7 @@ describe('Chart Data Test', () => {
     cy.findAllByLabelText('Y').eq(1).type('8');
 
     // Change the color of the chart
-    cy.findByLabelText('Chart color').invoke('val', '#ff448').trigger('change');
+    cy.findByLabelText('Chart color').invoke('val', '#000000').trigger('change');
 
     cy.findByText('Generate chart').click();
 

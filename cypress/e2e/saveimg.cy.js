@@ -19,7 +19,7 @@ describe('Saving a Chart to the Gallery', () => {
     cy.findAllByLabelText('X').eq(1).type('10')
 
     // Change the color of the chart
-    cy.findByLabelText('Chart color').invoke('val', '#ff448').trigger('change');
+    cy.findByLabelText('Chart color').invoke('val', '#000000').trigger('change');
 
     // Click the generate chart button
     cy.findByText('Generate chart').click();
