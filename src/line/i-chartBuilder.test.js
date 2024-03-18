@@ -34,7 +34,7 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
 
 
     // Assert that the lists are not empty
-	expect(xValues).toHaveLength(1)
+    expect(xValues).toHaveLength(1)
     expect(yValues).toHaveLength(1)
 
     const user = userEvent.setup()
