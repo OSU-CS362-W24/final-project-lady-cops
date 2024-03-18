@@ -7,9 +7,9 @@ const domTesting = require('@testing-library/dom')
 require('@testing-library/jest-dom')
 const userEvent = require("@testing-library/user-event").default
 
-//Spy on
-const window = require("./window")
- 
+//Spy on window
+
+    
 function initDomFromFiles(htmlPath, jsPath) {
     window.localStorage.clear()
     const html = fs.readFileSync(htmlPath, 'utf8')
@@ -21,23 +21,13 @@ function initDomFromFiles(htmlPath, jsPath) {
     })
 }
 
-/*
-    They should verify the behaviors described above. Note that these behaviors are 
-    duplicated across the three chart builder pages (bar.html, line.html, and scatter.html). 
-    You only need to test these behaviors on one of those pages.
-*/
-
 //ADDING VALUES TO THE CHART BUILDER
 
 test('Pressing "+" adds exactly one empty x and y value box', async function(){
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     //get + button for adding  new x and y cells.
-    const buttons = domTesting.queryAllByRole(document, "button")
-    const addButton = buttons[3];
-    
-    //make sure the correct button is selected
-    expect(addButton).toHaveTextContent("+")
+    const addButton = domTesting.getByText(document, "+")
 
     //count all cells
     var xValues = await domTesting.getAllByLabelText(document, "X")
@@ -62,6 +52,8 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
 
 //ALERTS DISPLAYED FOR MISSING CHART DATA
 test('Error message appears for missing chart title', async function(){
+    const window = require("./window")
+
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     const xLabel = domTesting.getByLabelText(document, "X label")
@@ -72,11 +64,7 @@ test('Error message appears for missing chart title', async function(){
     const xValue = xValues[0]
     const yValue = yValues[0]
 
-    const buttons = domTesting.queryAllByRole(document, "button")
-    var generateButton = buttons[0]
-
-    //make sure the correct button is selected
-    expect(generateButton).toHaveTextContent("Generate chart")
+    const generateButton = domTesting.getByText(document, "Generate chart")
 
     //Popups
     window.alert = jest.fn();
@@ -95,6 +83,7 @@ test('Error message appears for missing chart title', async function(){
 })
 
 test('Error message appears for missing Y Label', async function(){
+    const window = require("./window")
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     const chartTitle = domTesting.getByLabelText(document, "Chart title")
@@ -106,11 +95,7 @@ test('Error message appears for missing Y Label', async function(){
     const xValue = xValues[0]
     const yValue = yValues[0]
 
-    const buttons = domTesting.queryAllByRole(document, "button")
-    var generateButton = buttons[0]
-
-    //make sure the correct button is selected
-    expect(generateButton).toHaveTextContent("Generate chart")
+    const generateButton = domTesting.getByText(document, "Generate chart")
 
     //Popups
     window.alert = jest.fn();
@@ -129,6 +114,7 @@ test('Error message appears for missing Y Label', async function(){
 })
 
 test('Error message appears for missing X value', async function(){
+    const window = require("./window")
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     const chartTitle = domTesting.getByLabelText(document, "Chart title")
@@ -139,11 +125,7 @@ test('Error message appears for missing X value', async function(){
     const yValues = domTesting.getAllByLabelText(document, "Y")
     const yValue = yValues[0]
 
-    const buttons = domTesting.queryAllByRole(document, "button")
-    var generateButton = buttons[0]
-
-    //make sure the correct button is selected
-    expect(generateButton).toHaveTextContent("Generate chart")
+    const generateButton = domTesting.getByText(document, "Generate chart")
 
     //Popups
     window.alert = jest.fn();
@@ -162,6 +144,7 @@ test('Error message appears for missing X value', async function(){
 })
 
 test('Error message appears for missing Y value', async function(){
+    const window = require("./window")
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     const chartTitle = domTesting.getByLabelText(document, "Chart title")
@@ -172,11 +155,7 @@ test('Error message appears for missing Y value', async function(){
     const xValues = domTesting.getAllByLabelText(document, "X")
     const xValue = xValues[0]
 
-    const buttons = domTesting.queryAllByRole(document, "button")
-    var generateButton = buttons[0]
-
-    //make sure the correct button is selected
-    expect(generateButton).toHaveTextContent("Generate chart")
+    const generateButton = domTesting.getByText(document, "Generate chart")
 
     //Popups
     window.alert = jest.fn();
@@ -196,37 +175,51 @@ test('Error message appears for missing Y value', async function(){
 
 
 //CLEARING CHART DATA
-test('All chart values are cleared when Clear Chart Data is pressed', async function(){
+test('All chart data is cleared when Clear Chart Data is pressed', async function(){
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
     const chartTitle = domTesting.getByLabelText(document, "Chart title")
+    const chartColor = domTesting.getByLabelText(document, "Chart color")
+    const chartStyle = getComputedStyle(chartColor);
     const xLabel = domTesting.getByLabelText(document, "X label")
     const yLabel = domTesting.getByLabelText(document, "Y label")
+    var xValues = domTesting.getAllByLabelText(document, "X")
+    var yValues = domTesting.getAllByLabelText(document, "Y")
+    var xValue = xValues[0]
+    var yValue = yValues[0]
 
-    const buttons = domTesting.queryAllByRole(document, "button")
-    const clearButton = buttons[1]
-
-    //make sure the correct button is selected
-    expect(clearButton).toHaveTextContent("Clear chart data")
+    const clearButton = domTesting.getByText(document, "Clear chart data")
 
     const user = userEvent.setup()
 
     await user.type(chartTitle, "Random Chart Title")
     await user.type(xLabel, "X Label Name :)")
     await user.type(yLabel, "Y Label Name :)")
+    await user.type(xValue, "22")
+    await user.type(yValue, "33")
+    chartColor.value = '#00d9ff'
 
     xValues = domTesting.getAllByLabelText(document, "X")
     yValues = domTesting.getAllByLabelText(document, "Y")
 
+    expect(chartColor.value).toBe('#00d9ff')
+    expect(chartTitle).toHaveValue("Random Chart Title")
     expect(xLabel).toHaveValue("X Label Name :)")
     expect(yLabel).toHaveValue("Y Label Name :)")
-    expect(chartTitle).toHaveValue("Random Chart Title")
 
     await user.click(clearButton)
 
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
+    xValue = xValues[0]
+    yValue = yValues[0]
+
+    expect(chartColor.value).toBe('#ff4500')
     expect(xLabel).toHaveValue("")
     expect(yLabel).toHaveValue("")
     expect(chartTitle).toHaveValue("")
+    expect(xValue).toHaveValue(null)
+    expect(yValue).toHaveValue(null)
 })
 
 test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', async function(){
@@ -239,16 +232,12 @@ test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', asyn
     
     var xValues = domTesting.getAllByLabelText(document, "X")
     var yValues = domTesting.getAllByLabelText(document, "Y")
-    const xValue = xValues[0]
-    const yValue = yValues[0]
+    var xValue = xValues[0]
+    var yValue = yValues[0]
 
-    const buttons = domTesting.queryAllByRole(document, "button")
-    const clearButton = buttons[1]
-    const addButton = buttons[3];
+    const clearButton = domTesting.getByText(document, "Clear chart data")
+    const addButton = domTesting.getByText(document, "+")
     
-    //make sure the correct button is selected
-    expect(addButton).toHaveTextContent("+")
-    expect(clearButton).toHaveTextContent("Clear chart data")
     expect(xValues).toHaveLength(1)
     expect(yValues).toHaveLength(1)
 
@@ -272,10 +261,14 @@ test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', asyn
 
     xValues = domTesting.getAllByLabelText(document, "X")
     yValues = domTesting.getAllByLabelText(document, "Y")
+    xValue = xValues[0]
+    yValue = yValues[0]
 
     expect(xLabel).toHaveValue("")
     expect(yLabel).toHaveValue("")
     expect(chartTitle).toHaveValue("")
+    expect(xValue).toHaveValue(null)
+    expect(yValue).toHaveValue(null)
     expect(xValues).toHaveLength(1)
     expect(yValues).toHaveLength(1)
 })
