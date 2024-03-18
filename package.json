@@ -7,7 +7,6 @@
     "start": "webpack serve --open --port 3000",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test": "jest",
     "test:unit": "jest u-",
     "test:integration": "jest i-",
     "test:e2e": "start-test start http://localhost:3000 cy:run"
