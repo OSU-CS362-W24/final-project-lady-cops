@@ -36,7 +36,7 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
 
     // Assert that the lists are not empty
 	expect(xValues).toHaveLength(1)
-    expect(yValues ).toHaveLength(1)
+    expect(yValues).toHaveLength(1)
 
     const user = userEvent.setup()
 
@@ -249,7 +249,15 @@ test('X and Y cell count is reduced to 1 when Clear Chart Data is pressed', asyn
     await user.type(xValue, "22")
     await user.type(yValue, "33")
     await user.click(addButton)
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
+    await user.type(xValues[1], "22")
+    await user.type(yValues[1], "33")
     await user.click(addButton)
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
+    await user.type(xValues[2], "22")
+    await user.type(yValues[2], "33")
 
     xValues = domTesting.getAllByLabelText(document, "X")
     yValues = domTesting.getAllByLabelText(document, "Y")
