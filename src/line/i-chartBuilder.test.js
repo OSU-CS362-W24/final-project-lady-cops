@@ -111,6 +111,9 @@ test('Error message appears for missing chart title', async function(){
     await user.click(generateButton)
     
     expect(alertMock).toHaveBeenCalledTimes(1)
+
+    window.alert.mockRestore()
+    alertMock.mockRestore()
 })
 
 test('Error message appears for missing Y Label', async function(){
@@ -142,6 +145,9 @@ test('Error message appears for missing Y Label', async function(){
     await user.click(generateButton)
     
     expect(alertMock).toHaveBeenCalledTimes(1)
+
+    window.alert.mockRestore()
+    alertMock.mockRestore()
 })
 
 test('Error message appears for missing X Label', async function(){
@@ -173,6 +179,9 @@ test('Error message appears for missing X Label', async function(){
     await user.click(generateButton)
     
     expect(alertMock).toHaveBeenCalledTimes(1)
+
+    window.alert.mockRestore()
+    alertMock.mockRestore()
 })
 
 test('Error message appears for missing X value', async function(){
@@ -203,6 +212,9 @@ test('Error message appears for missing X value', async function(){
     await user.click(generateButton)
     
     expect(alertMock).toHaveBeenCalledTimes(1)
+
+    window.alert.mockRestore()
+    alertMock.mockRestore()
 })
 
 test('Error message appears for missing Y value', async function(){
@@ -233,6 +245,9 @@ test('Error message appears for missing Y value', async function(){
     await user.click(generateButton)
     
     expect(alertMock).toHaveBeenCalledTimes(1)
+
+    window.alert.mockRestore()
+    alertMock.mockRestore()
 })
 
 
