@@ -22,7 +22,6 @@ function initDomFromFiles(htmlPath, jsPath) {
 }
 
 //ADDING VALUES TO THE CHART BUILDER
-
 test('Pressing "+" adds exactly one empty x and y value box', async function(){
     initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
 
@@ -48,6 +47,38 @@ test('Pressing "+" adds exactly one empty x and y value box', async function(){
     expect(xValues).toHaveLength(2)
     expect(yValues).toHaveLength(2)
 })
+
+test('Pressing "+" preserves the values of other cells', async function(){
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    //get + button for adding  new x and y cells.
+    const addButton = domTesting.getByText(document, "+")
+
+    //count all cells
+    var xValues = await domTesting.getAllByLabelText(document, "X")
+    var yValues = await domTesting.getAllByLabelText(document, "Y")
+    const xValue = xValues[0]
+    const yValue = yValues[0]
+
+    // Assert that the lists are not empty
+	expect(xValues).toHaveLength(1)
+    expect(yValues).toHaveLength(1)
+
+    const user = userEvent.setup()
+
+    await user.type(xValue, "22")
+    await user.type(yValue, "33")
+    await user.click(addButton)
+
+    xValues = domTesting.getAllByLabelText(document, "X")
+    yValues = domTesting.getAllByLabelText(document, "Y")
+    
+    expect(xValues).toHaveLength(2)
+    expect(yValues).toHaveLength(2)
+    expect(xValue).toHaveValue(22)
+    expect(yValue).toHaveValue(33)
+})
+
 
 
 //ALERTS DISPLAYED FOR MISSING CHART DATA
@@ -105,6 +136,37 @@ test('Error message appears for missing Y Label', async function(){
 
     await user.type(chartTitle, "Random Chart Title")
     await user.type(xLabel, "X Label Name :)")
+    await user.type(xValue, "22")
+    await user.type(yValue, "33")
+
+    await user.click(generateButton)
+    
+    expect(alertMock).toHaveBeenCalledTimes(1)
+})
+
+test('Error message appears for missing X Label', async function(){
+    const window = require("./window")
+    initDomFromFiles(`${__dirname}/line.html`, `${__dirname}/line.js`)
+
+    const chartTitle = domTesting.getByLabelText(document, "Chart title")
+
+    const yLabel = domTesting.getByLabelText(document, "Y label")
+    
+    const xValues = domTesting.getAllByLabelText(document, "X")
+    const yValues = domTesting.getAllByLabelText(document, "Y")
+    const xValue = xValues[0]
+    const yValue = yValues[0]
+
+    const generateButton = domTesting.getByText(document, "Generate chart")
+
+    //Popups
+    window.alert = jest.fn();
+    const alertMock = jest.spyOn(window, 'alert');
+
+    const user = userEvent.setup()
+
+    await user.type(chartTitle, "Random Chart Title")
+    await user.type(yLabel, "Y Label Name :)")
     await user.type(xValue, "22")
     await user.type(yValue, "33")
 
