@@ -35,6 +35,10 @@ describe('Chart Data Test', () => {
 
     //Check that the chart title is maintained
     cy.findByLabelText('Chart title').should('have.value', 'title');
+    
+    //Check that the x and y labels are correct
+    cy.findByLabelText('X label').should('have.value', 'x');
+    cy.findByLabelText('Y label').should('have.value', 'y');
 
     //Check x and y values
     cy.findAllByLabelText('X').eq(0).should('have.value', '7');

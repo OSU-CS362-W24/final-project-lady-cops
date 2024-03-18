@@ -27,5 +27,16 @@ describe('Chart Generation Test', () => {
 
     //Check that the chart is visible
     cy.findByTestId('chart-image').should('exist').should('be.visible');
+
+    //Check that the x and y labels are correct
+    cy.findByLabelText('X label').should('have.value', 'x');
+    cy.findByLabelText('Y label').should('have.value', 'y');
+
+    //Check x and y values
+    cy.findAllByLabelText('X').eq(0).should('have.value', '7');
+    cy.findAllByLabelText('Y').eq(0).should('have.value', '5');
+
+    cy.findAllByLabelText('X').eq(1).should('have.value', '10');
+    cy.findAllByLabelText('Y').eq(1).should('have.value', '8');
   });
 });
