@@ -281,6 +281,7 @@ module.exports = function runChartBuilder(type) {
         if (!img) {
             img = document.createElement("img")
             img.setAttribute("id", "chart-img")
+            img.setAttribute("data-testid", "chart-image"); // Add test ID attribute
             chartDisplay && chartDisplay.append(img)
         }
         img.src = imgUrl
