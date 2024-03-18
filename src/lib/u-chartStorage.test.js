@@ -3,7 +3,7 @@
  */
 
 const fs = require("fs")
-const chartStorage = require('../lib/chartStorage')
+const chartStorage = require('./chartStorage')
 require('@testing-library/jest-dom')
 
 function initDomFromFiles(htmlPath, jsPath) {

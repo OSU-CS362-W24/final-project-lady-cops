@@ -3,7 +3,7 @@
 */
 
 const fs = require("fs")
-const generateChartImg = require('../lib/generateChartImg')
+const generateChartImg = require('./generateChartImg')
 require("whatwg-fetch")
 
 function initDomFromFiles(htmlPath, jsPath) {
